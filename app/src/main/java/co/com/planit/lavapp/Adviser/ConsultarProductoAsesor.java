@@ -203,7 +203,7 @@ public class ConsultarProductoAsesor extends AppCompatActivity implements View.O
             startActivity(intento1);
             recuperarFoto(v, foto, valor);
 
-            fotoB1 = BitmapToString(bitmap1);
+            fotoB1 = BitmapToByteString(bitmap1);
 
             asesorLocalStore.setAsesorFoto1(fotoB1, nombreFoto1);
 
@@ -416,6 +416,22 @@ public class ConsultarProductoAsesor extends AppCompatActivity implements View.O
             Log.i("binarios: ", b+"");
             String temp = Base64.encodeToString(b, Base64.DEFAULT);
             return temp;
+        } catch (NullPointerException e) {
+            return null;
+        } catch (OutOfMemoryError e) {
+            return null;
+        }
+    }
+
+    public static String BitmapToByteString(Bitmap bitmap) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream(bitmap.getByteCount());
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 30, baos);
+            byte[] images = baos.toByteArray();
+
+            String encodedString = new String(images);
+            Log.i("String----",encodedString );
+            return encodedString;
         } catch (NullPointerException e) {
             return null;
         } catch (OutOfMemoryError e) {
